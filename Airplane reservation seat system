@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+public class HelloJava {
+    public static void main(String[] args) {
+
+        System.out.println("\n");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("\n");  
+
+        Scanner userseatnames = new Scanner(System.in);
+        System.out.print("Please Enter Name: ");
+        String userdisplaynames = userseatnames.nextLine();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean[] seats = new boolean[11]; // Index 0 is unused to match seat numbers
+
+        System.out.println("\n");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("\n");
+        System.out.println("Hello! " + userdisplaynames +  ", if you like to seat on First Class or Economy");
+
+        while (true) {
+            System.out.print("Please type 1 for First Class and 2 for Economy: ");
+            int choice = scanner.nextInt();
+            System.out.println("\n");        
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
+            if (choice == 1) {
+                int seatNumber = assignSeat(seats, 1, 5);
+                if (seatNumber != -1) {
+                    printBoardingPass(seatNumber, "First Class");
+                } else {
+                    System.out.print("First Class is full. Would you like Economy? (Type 'yes' or 'no'): ");
+                    String switchChoice = scanner.next();
+                    if (switchChoice.equalsIgnoreCase("yes")) {
+                        seatNumber = assignSeat(seats, 6, 10);
+                        if (seatNumber != -1) {
+                            printBoardingPass(seatNumber, "Economy");
+                        } else {
+                            System.out.println("Sorry, Economy is full as well. Next flight leaves in 3 hours.");
+                        }
+                    } else {
+                        System.out.println("Next flight leaves in 3 hours.");
+                    }
+                }
+            } else if (choice == 2) {
+                int seatNumber = assignSeat(seats, 6, 10);
+                if (seatNumber != -1) {
+                    printBoardingPass(seatNumber, "Economy");
+                } else {
+                    System.out.print("Economy is full. Would you like First Class? (Type 'yes' or 'no'): ");
+                    String switchChoice = scanner.next();
+                    if (switchChoice.equalsIgnoreCase("yes")) {
+                        seatNumber = assignSeat(seats, 1, 5);
+                        if (seatNumber != -1) {
+                            printBoardingPass(seatNumber, "First Class");
+                        } else {
+                            System.out.println("Sorry, First Class is full as well. Next flight leaves in 3 hours.");
+                        }
+                    } else {
+                        System.out.println("Next flight leaves in 3 hours.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid choice. Please type 1 or 2.");
+            }
+        }
+    }
+
+    public static int assignSeat(boolean[] seats, int start, int end) {
+        for (int i = start; i <= end; i++) {
+            if (!seats[i]) {
+                seats[i] = true;
+                return i;
+            }
+        }
+        return -1; // All seats are occupied
+    }
+
+    public static void printBoardingPass(int seatNumber, String section) {
+        System.out.println("\nBoarding Pass");
+        System.out.println("Seat Number: " + seatNumber);
+        System.out.println("Section: " + section);
+        System.out.println("-------------------\n");
+
+    }
+}
